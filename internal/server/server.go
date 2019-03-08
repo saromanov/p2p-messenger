@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 	"syscall"
-
+	"github.com/saromanov/p2p-messenger/internal/peer"
 	"github.com/pkg/errors"
 )
 
@@ -34,7 +34,14 @@ func New(address string) error {
 }
 
 func handle(conn net.Conn) {
+	defer func(){
+		conn.Close()
+	}()
 
+	_, err := peer.New(conn)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func setLimit() {
