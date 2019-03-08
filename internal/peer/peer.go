@@ -11,11 +11,11 @@ import (
 type Peer struct {
 	Name       string
 	PublicKey  ed25519.PublicKey
-	Connection *net.Conn
+	Connection net.Conn
 }
 
 // New creates a new peer
-func New(c *net.Conn) (*Peer, error) {
+func New(c net.Conn) (*Peer, error) {
 	return &Peer{
 		Name:       "123",
 		Connection: c,
