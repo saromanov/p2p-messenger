@@ -5,12 +5,14 @@ import (
 	"log"
 	"net"
 	"syscall"
-	"github.com/saromanov/p2p-messenger/internal/peer"
+
 	"github.com/pkg/errors"
+	"github.com/saromanov/p2p-messenger/internal/peer"
 )
 
 // New provides making of TCP server
 func New(address string) error {
+	setLimit()
 	l, err := net.Listen("tcp", address)
 	if err != nil {
 		return errors.Wrap(err, "unable to listen TCP")
@@ -34,9 +36,11 @@ func New(address string) error {
 }
 
 func handle(conn net.Conn) {
-	defer func(){
+	defer func() {
 		conn.Close()
 	}()
+
+	log.Printf("New connection: %s", conn.RemoteAddr().String())
 
 	_, err := peer.New(conn)
 	if err != nil {
