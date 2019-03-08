@@ -1,0 +1,23 @@
+// Package core defines main logic for the messenger
+package core
+
+import (
+	"github.com/saromanov/p2p-messenger/internal/peer"
+	"golang.org/x/crypto/ed25519"
+)
+
+// Core defines main logic
+type Core struct {
+	peers  *peer.Peers
+	Name   string
+	Addr   string
+	PubKey ed25519.PublicKey
+}
+
+// New creates core logic
+func New(name, addr string) *Core {
+	return &Core{
+		Name: name,
+		Addr: addr,
+	}
+}
