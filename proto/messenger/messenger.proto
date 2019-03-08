@@ -1,0 +1,8 @@
+syntax = "proto3";
+package messenger;
+
+
+message Message {
+    string body = 1;
+    string user = 2;
+}
