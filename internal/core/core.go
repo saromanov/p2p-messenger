@@ -2,7 +2,9 @@
 package core
 
 import (
+	"bufio"
 	"net"
+	"strings"
 
 	"github.com/saromanov/p2p-messenger/internal/peer"
 	"golang.org/x/crypto/ed25519"
@@ -31,5 +33,19 @@ func (c *Core) Start() error {
 
 // Handle provides handling of incoming messages
 func (c *Core) Handle(conn net.Conn) error {
+	r := bufio.NewReader(conn)
+	w := bufio.NewWriter(conn)
+	scanr := bufio.NewScanner(r)
+	for {
+		scanned := scanr.Scan()
+		if !scanned {
+			if err := scanr.Err(); err != nil {
+				return err
+			}
+			break
+		}
+		w.WriteString(strings.ToUpper(scanr.Text()) + "\n")
+		w.Flush()
+	}
 	return nil
 }
