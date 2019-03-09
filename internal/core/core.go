@@ -21,3 +21,8 @@ func New(name, addr string) *Core {
 		Addr: addr,
 	}
 }
+
+// Start provides initialization of the core
+func (c *Core) Start() error {
+	return nil
+}
