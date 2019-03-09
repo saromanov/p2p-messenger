@@ -7,17 +7,20 @@ import (
 	"github.com/saromanov/p2p-messenger/internal/server"
 )
 
-var address = flag.String("address", "", "")
+var (
+	address = flag.String("address", "", "")
+	name = flag.String("name", "", "")
+)
 
 // start provides starting of the all stage on app
-func start(address string) {
+func start(address, name string) {
 	go func() {
 		if err := server.New(address); err != nil {
 			panic(err)
 		}
 	}()
 
-	app := core.New("message", address)
+	app := core.New(name, address)
 	app.Start()
 	select {}
 }
@@ -26,6 +29,9 @@ func main() {
 	if *address == "" {
 		panic("address is not defined")
 	}
+	if *name == "" {
+		panic("name is not defined")
+	}
 
-	start(*address)
+	start(*address, *name)
 }
