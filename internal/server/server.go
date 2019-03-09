@@ -2,6 +2,7 @@
 package server
 
 import (
+	"fmt"
 	"log"
 	"net"
 	"syscall"
@@ -41,7 +42,7 @@ func handle(conn net.Conn) {
 	}()
 
 	log.Printf("New connection: %s", conn.RemoteAddr().String())
-
+	fmt.Println(conn)
 	_, err := peer.New(conn)
 	if err != nil {
 		panic(err)
