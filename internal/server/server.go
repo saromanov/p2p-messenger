@@ -9,10 +9,11 @@ import (
 	"github.com/pkg/errors"
 	"github.com/saromanov/p2p-messenger/internal/log"
 	"github.com/saromanov/p2p-messenger/internal/peer"
+	"github.com/saromanov/p2p-messenger/internal/core"
 )
 
 // New provides making of TCP server
-func New(address string) error {
+func New(address string, cor *core.Core) error {
 	setLimit()
 	l, err := net.Listen("tcp", address)
 	if err != nil {
@@ -31,12 +32,12 @@ func New(address string) error {
 			log.Infof("accept error: %v", err)
 			return err
 		}
-		go handle(conn)
+		go handle(conn, cor)
 	}
 	return nil
 }
 
-func handle(conn net.Conn) {
+func handle(conn net.Conn, cor *core.Core) {
 	defer func() {
 		conn.Close()
 	}()
@@ -47,6 +48,7 @@ func handle(conn net.Conn) {
 	if err != nil {
 		panic(err)
 	}
+	cor.Handle(conn)
 }
 
 func setLimit() {

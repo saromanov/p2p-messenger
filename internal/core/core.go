@@ -2,6 +2,8 @@
 package core
 
 import (
+	"net"
+
 	"github.com/saromanov/p2p-messenger/internal/peer"
 	"golang.org/x/crypto/ed25519"
 )
@@ -24,5 +26,10 @@ func New(name, addr string) *Core {
 
 // Start provides initialization of the core
 func (c *Core) Start() error {
+	return nil
+}
+
+// Handle provides handling of incoming messages
+func (c *Core) Handle(conn net.Conn) error {
 	return nil
 }

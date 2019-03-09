@@ -9,19 +9,18 @@ import (
 
 var (
 	address = flag.String("address", "", "")
-	name = flag.String("name", "", "")
+	name    = flag.String("name", "", "")
 )
 
 // start provides starting of the all stage on app
 func start(address, name string) {
+	app := core.New(name, address)
+	app.Start()
 	go func() {
-		if err := server.New(address); err != nil {
+		if err := server.New(address, app); err != nil {
 			panic(err)
 		}
 	}()
-
-	app := core.New(name, address)
-	app.Start()
 	select {}
 }
 func main() {
