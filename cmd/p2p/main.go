@@ -26,4 +26,6 @@ func main() {
 	if *address == "" {
 		panic("address is not defined")
 	}
+
+	start(*address)
 }
