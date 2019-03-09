@@ -1,4 +1,4 @@
-package logger
+package log
 
 import "go.uber.org/zap"
 
@@ -41,6 +41,11 @@ func Debug(args ...interface{}) {
 // Info uses fmt.Sprint to construct and log a message.
 func Info(args ...interface{}) {
 	GetLogger().Info(args...)
+}
+
+// Infof uses fmt.Sprintf to log a templated message.
+func Infof(template string, args ...interface{}) {
+	GetLogger().Infof(template, args...)
 }
 
 // Warn uses fmt.Sprint to construct and log a message.

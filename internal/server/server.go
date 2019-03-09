@@ -3,11 +3,11 @@ package server
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"syscall"
 
 	"github.com/pkg/errors"
+	"github.com/saromanov/p2p-messenger/internal/log"
 	"github.com/saromanov/p2p-messenger/internal/peer"
 )
 
@@ -19,16 +19,16 @@ func New(address string) error {
 		return errors.Wrap(err, "unable to listen TCP")
 	}
 
-	log.Printf("Server started on %s\n\n", address)
+	log.Infof("Server started on %s\n\n", address)
 	for {
 		conn, err := l.Accept()
 		if err != nil {
 			if ne, ok := err.(net.Error); ok && ne.Temporary() {
-				log.Printf("accept temp err: %v", ne)
+				log.Infof("accept temp err: %v", ne)
 				continue
 			}
 
-			log.Printf("accept error: %v", err)
+			log.Infof("accept error: %v", err)
 			return err
 		}
 		go handle(conn)
@@ -41,7 +41,7 @@ func handle(conn net.Conn) {
 		conn.Close()
 	}()
 
-	log.Printf("New connection: %s", conn.RemoteAddr().String())
+	log.Infof("New connection: %s", conn.RemoteAddr().String())
 	fmt.Println(conn)
 	_, err := peer.New(conn)
 	if err != nil {
@@ -59,5 +59,5 @@ func setLimit() {
 		panic(err)
 	}
 
-	log.Printf("set cur limit: %d", rLimit.Cur)
+	log.Infof("set cur limit: %d", rLimit.Cur)
 }
